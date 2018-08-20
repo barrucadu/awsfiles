@@ -17,23 +17,23 @@ provider "aws" {
   version    = "~> 1.25"
 }
 
-resource "aws_sns_topic" "nyarlathotep-zfs-notification" {
+resource "aws_sns_topic" "host-notifications" {
   provider = "aws.sns"
-  name     = "nyarlathotep-zfs-notification"
+  name     = "host-notifications"
 }
 
-resource "aws_sns_topic_subscription" "nyarlathotep-zfs-notification-sms" {
+resource "aws_sns_topic_subscription" "host-notifications-sms" {
   provider  = "aws.sns"
-  topic_arn = "${aws_sns_topic.nyarlathotep-zfs-notification.arn}"
+  topic_arn = "${aws_sns_topic.host-notifications.arn}"
   protocol  = "sms"
   endpoint  = "${var.phone}"
 }
 
 ## terraform cannot create the email subscription because it must be
 ## manually confirmed
-# resource "aws_sns_topic_subscription" "nyarlathotep-zfs-notification-email" {
+# resource "aws_sns_topic_subscription" "host-notifications-email" {
 #   provider  = "aws.sns"
-#   topic_arn = "${aws_sns_topic.nyarlathotep-zfs-notification.arn}"
+#   topic_arn = "${aws_sns_topic.host-notifications.arn}"
 #   protocol  = "email"
 #   endpoint  = "${var.email}"
 # }
