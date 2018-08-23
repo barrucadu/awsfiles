@@ -1,15 +1,11 @@
 provider "aws" {
-  access_key = "${var.access_key}"
-  secret_key = "${var.secret_key}"
-  region     = "${var.region}"
-  version    = "~> 1.25"
+  profile = "${var.aws_profile}"
+  region  = "${var.aws_region}"
+  version = "~> 1.25"
 }
 
-variable "access_key"  {}
-variable "secret_key"  {}
-variable "region" {
-  default = "eu-west-2"
-}
+variable "aws_region"  {}
+variable "aws_profile" {}
 
 /* ************************************************************************* */
 
