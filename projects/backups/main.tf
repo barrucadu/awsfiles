@@ -9,7 +9,7 @@ variable "group_backup_user_names" {
 }
 
 module "group_backup" {
-  source                  = "./modules/group_user"
+  source                  = "../../modules/group_user"
   group_name              = "backup"
   group_user_names        = ["${var.group_backup_user_names}"]
   group_policy_arns       = ["${aws_iam_policy.backup.arn}"]

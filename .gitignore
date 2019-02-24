@@ -1,4 +1,2 @@
-.terraform
-terraform.tfvars
-terraform.tfstate
-terraform.tfstate.backup
+projects/*/.terraform
+projects/*/terraform.tfvars
