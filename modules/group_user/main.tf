@@ -44,8 +44,7 @@ resource "aws_iam_group_policy_attachment" "group_policy_attachment" {
   policy_arn = "${element(var.group_policy_arns, count.index)}"
 }
 
-# Outputs
-#--------------------------------------------------------------
+/* ************************************************************************* */
 
 output "group_arn" {
   value       = "${join("",aws_iam_group.user_group.*.arn)}"
