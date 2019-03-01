@@ -1,279 +1,84 @@
 locals {
   "innsmouth_ipv4"  = "139.162.211.161"
   "innsmouth_ipv6"  = "2a01:7e00::f03c:91ff:fee4:c7d5"
-  "lainonlife_ipv4" = "91.121.0.148"
-  "lainonlife_ipv6" = "2001:41d0:0001:5394::1"
-  "default_ttl"     = "86400"
 }
 
 /* ************************************************************************* */
 
-resource "aws_route53_zone" "barrucadu_co_uk" {
-  name = "barrucadu.co.uk."
+module "barrucadu_co_uk" {
+  source = "../../modules/dns"
+  domain = "barrucadu.co.uk"
+  a      = ["${local.innsmouth_ipv4}"]
+  aaaa   = ["${local.innsmouth_ipv6}"]
+  mx     = ["0 aspmx.l.google.com."]
 }
 
-resource "aws_route53_record" "A_barrucadu_co_uk" {
-  zone_id = "${aws_route53_zone.barrucadu_co_uk.zone_id}"
-  name    = "${aws_route53_zone.barrucadu_co_uk.name}"
-  type    = "A"
-
-  alias {
-    zone_id = "${aws_route53_record.A_star_barrucadu_co_uk.zone_id}"
-    name    = "${aws_route53_record.A_star_barrucadu_co_uk.name}"
-    evaluate_target_health = true
-  }
+module "barrucadu_uk" {
+  source = "../../modules/dns"
+  domain = "barrucadu.uk"
+  a      = ["${local.innsmouth_ipv4}"]
+  aaaa   = ["${local.innsmouth_ipv6}"]
 }
 
-resource "aws_route53_record" "A_star_barrucadu_co_uk" {
-  zone_id = "${aws_route53_zone.barrucadu_co_uk.zone_id}"
-  name    = "*.${aws_route53_zone.barrucadu_co_uk.name}"
-  type    = "A"
-  ttl     = "${local.default_ttl}"
-  records = ["${local.innsmouth_ipv4}"]
+module "barrucadu_com" {
+  source = "../../modules/dns"
+  domain = "barrucadu.com"
+  a      = ["${local.innsmouth_ipv4}"]
+  aaaa   = ["${local.innsmouth_ipv6}"]
 }
 
-resource "aws_route53_record" "AAAA_barrucadu_co_uk" {
-  zone_id = "${aws_route53_zone.barrucadu_co_uk.zone_id}"
-  name    = "${aws_route53_zone.barrucadu_co_uk.name}"
-  type    = "AAAA"
-
-  alias {
-    zone_id = "${aws_route53_record.AAAA_star_barrucadu_co_uk.zone_id}"
-    name    = "${aws_route53_record.AAAA_star_barrucadu_co_uk.name}"
-    evaluate_target_health = true
-  }
+module "uzbl_org" {
+  source = "../../modules/dns"
+  domain = "uzbl.org"
+  a      = ["${local.innsmouth_ipv4}"]
+  aaaa   = ["${local.innsmouth_ipv6}"]
 }
 
-resource "aws_route53_record" "AAAA_star_barrucadu_co_uk" {
-  zone_id = "${aws_route53_zone.barrucadu_co_uk.zone_id}"
-  name    = "*.${aws_route53_zone.barrucadu_co_uk.name}"
-  type    = "AAAA"
-  ttl     = "${local.default_ttl}"
-  records = ["${local.innsmouth_ipv6}"]
-}
-
-resource "aws_route53_record" "CNAME_innsmouth_barrucadu_co_uk" {
-  zone_id = "${aws_route53_zone.barrucadu_co_uk.zone_id}"
-  name    = "innsmouth.${aws_route53_zone.barrucadu_co_uk.name}"
+resource "aws_route53_record" "innsmouth_barrucadu_co_uk" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = "innsmouth.barrucadu.co.uk"
   type    = "CNAME"
-  ttl     = "${local.default_ttl}"
+  ttl     = 300
   records = ["li1374-161.members.linode.com"]
 }
 
-resource "aws_route53_record" "MX_barrucadu_co_uk" {
-  zone_id = "${aws_route53_zone.barrucadu_co_uk.zone_id}"
-  name    = "${aws_route53_zone.barrucadu_co_uk.name}"
-  type    = "MX"
-  ttl     = "${local.default_ttl}"
-  records = ["0 aspmx.l.google.com."]
+output "barrucadu_co_uk_name_servers" {
+  value = "${module.barrucadu_co_uk.name_servers}"
+}
+
+output "barrucadu_uk_name_servers" {
+  value = "${module.barrucadu_uk.name_servers}"
+}
+
+output "barrucadu_com_name_servers" {
+  value = "${module.barrucadu_com.name_servers}"
+}
+
+output "uzbl_org_name_servers" {
+  value = "${module.uzbl_org.name_servers}"
 }
 
 /* ************************************************************************* */
 
-resource "aws_route53_zone" "barrucadu_com" {
-  name = "barrucadu.com."
+module "archhurd_org" {
+  source = "../../modules/dns"
+  domain = "archhurd.org"
+  a      = ["128.199.32.197"]
 }
 
-resource "aws_route53_record" "A_barrucadu_com" {
-  zone_id = "${aws_route53_zone.barrucadu_com.zone_id}"
-  name    = "${aws_route53_zone.barrucadu_com.name}"
-  type    = "A"
-
-  alias {
-    zone_id = "${aws_route53_record.A_star_barrucadu_com.zone_id}"
-    name    = "${aws_route53_record.A_star_barrucadu_com.name}"
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "A_star_barrucadu_com" {
-  zone_id = "${aws_route53_zone.barrucadu_com.zone_id}"
-  name    = "*.${aws_route53_zone.barrucadu_com.name}"
-  type    = "A"
-  ttl     = "${local.default_ttl}"
-  records = ["${local.innsmouth_ipv4}"]
-}
-
-resource "aws_route53_record" "AAAA_barrucadu_com" {
-  zone_id = "${aws_route53_zone.barrucadu_com.zone_id}"
-  name    = "${aws_route53_zone.barrucadu_com.name}"
-  type    = "AAAA"
-
-  alias {
-    zone_id = "${aws_route53_record.AAAA_star_barrucadu_com.zone_id}"
-    name    = "${aws_route53_record.AAAA_star_barrucadu_com.name}"
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "AAAA_star_barrucadu_com" {
-  zone_id = "${aws_route53_zone.barrucadu_com.zone_id}"
-  name    = "*.${aws_route53_zone.barrucadu_com.name}"
-  type    = "AAAA"
-  ttl     = "${local.default_ttl}"
-  records = ["${local.innsmouth_ipv6}"]
+output "archhurd_org_name_servers" {
+  value = "${module.archhurd_org.name_servers}"
 }
 
 /* ************************************************************************* */
 
-resource "aws_route53_zone" "barrucadu_uk" {
-  name = "barrucadu.uk."
+module "lainon_life" {
+  source = "../../modules/dns"
+  domain = "lainon.life"
+  a      = ["91.121.0.148"]
+  aaaa   = ["2001:41d0:0001:5394::1"]
 }
 
-resource "aws_route53_record" "A_barrucadu_uk" {
-  zone_id = "${aws_route53_zone.barrucadu_uk.zone_id}"
-  name    = "${aws_route53_zone.barrucadu_uk.name}"
-  type    = "A"
-
-  alias {
-    zone_id = "${aws_route53_record.A_star_barrucadu_uk.zone_id}"
-    name    = "${aws_route53_record.A_star_barrucadu_uk.name}"
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "A_star_barrucadu_uk" {
-  zone_id = "${aws_route53_zone.barrucadu_uk.zone_id}"
-  name    = "*.${aws_route53_zone.barrucadu_uk.name}"
-  type    = "A"
-  ttl     = "${local.default_ttl}"
-  records = ["${local.innsmouth_ipv4}"]
-}
-
-resource "aws_route53_record" "AAAA_barrucadu_uk" {
-  zone_id = "${aws_route53_zone.barrucadu_uk.zone_id}"
-  name    = "${aws_route53_zone.barrucadu_uk.name}"
-  type    = "AAAA"
-
-  alias {
-    zone_id = "${aws_route53_record.AAAA_star_barrucadu_uk.zone_id}"
-    name    = "${aws_route53_record.AAAA_star_barrucadu_uk.name}"
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "AAAA_star_barrucadu_uk" {
-  zone_id = "${aws_route53_zone.barrucadu_uk.zone_id}"
-  name    = "*.${aws_route53_zone.barrucadu_uk.name}"
-  type    = "AAAA"
-  ttl     = "${local.default_ttl}"
-  records = ["${local.innsmouth_ipv6}"]
-}
-
-/* ************************************************************************* */
-
-resource "aws_route53_zone" "uzbl_org" {
-  name = "uzbl.org."
-}
-
-resource "aws_route53_record" "A_uzbl_org" {
-  zone_id = "${aws_route53_zone.uzbl_org.zone_id}"
-  name    = "${aws_route53_zone.uzbl_org.name}"
-  type    = "A"
-
-  alias {
-    zone_id = "${aws_route53_record.A_star_uzbl_org.zone_id}"
-    name    = "${aws_route53_record.A_star_uzbl_org.name}"
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "A_star_uzbl_org" {
-  zone_id = "${aws_route53_zone.uzbl_org.zone_id}"
-  name    = "*.${aws_route53_zone.uzbl_org.name}"
-  type    = "A"
-  ttl     = "${local.default_ttl}"
-  records = ["${local.innsmouth_ipv4}"]
-}
-
-resource "aws_route53_record" "AAAA_uzbl_org" {
-  zone_id = "${aws_route53_zone.uzbl_org.zone_id}"
-  name    = "${aws_route53_zone.uzbl_org.name}"
-  type    = "AAAA"
-
-  alias {
-    zone_id = "${aws_route53_record.AAAA_star_uzbl_org.zone_id}"
-    name    = "${aws_route53_record.AAAA_star_uzbl_org.name}"
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "AAAA_star_uzbl_org" {
-  zone_id = "${aws_route53_zone.uzbl_org.zone_id}"
-  name    = "*.${aws_route53_zone.uzbl_org.name}"
-  type    = "AAAA"
-  ttl     = "${local.default_ttl}"
-  records = ["${local.innsmouth_ipv6}"]
-}
-
-/* ************************************************************************* */
-
-resource "aws_route53_zone" "archhurd_org" {
-  name = "archhurd.org."
-}
-
-resource "aws_route53_record" "A_archhurd_org" {
-  zone_id = "${aws_route53_zone.archhurd_org.zone_id}"
-  name    = "${aws_route53_zone.archhurd_org.name}"
-  type    = "A"
-
-  alias {
-    zone_id = "${aws_route53_record.A_star_archhurd_org.zone_id}"
-    name    = "${aws_route53_record.A_star_archhurd_org.name}"
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "A_star_archhurd_org" {
-  zone_id = "${aws_route53_zone.archhurd_org.zone_id}"
-  name    = "*.${aws_route53_zone.archhurd_org.name}"
-  type    = "A"
-  ttl     = "${local.default_ttl}"
-  records = ["128.199.32.197"]
-}
-
-/* ************************************************************************* */
-
-resource "aws_route53_zone" "lainon_life" {
-  name = "lainon.life."
-}
-
-resource "aws_route53_record" "A_lainon_life" {
-  zone_id = "${aws_route53_zone.lainon_life.zone_id}"
-  name    = "${aws_route53_zone.lainon_life.name}"
-  type    = "A"
-
-  alias {
-    zone_id = "${aws_route53_record.A_star_lainon_life.zone_id}"
-    name    = "${aws_route53_record.A_star_lainon_life.name}"
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "A_star_lainon_life" {
-  zone_id = "${aws_route53_zone.lainon_life.zone_id}"
-  name    = "*.${aws_route53_zone.lainon_life.name}"
-  type    = "A"
-  ttl     = "${local.default_ttl}"
-  records = ["${local.lainonlife_ipv4}"]
-}
-
-resource "aws_route53_record" "AAAA_lainon_life" {
-  zone_id = "${aws_route53_zone.lainon_life.zone_id}"
-  name    = "${aws_route53_zone.lainon_life.name}"
-  type    = "AAAA"
-
-  alias {
-    zone_id = "${aws_route53_record.AAAA_star_lainon_life.zone_id}"
-    name    = "${aws_route53_record.AAAA_star_lainon_life.name}"
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "AAAA_star_lainon_life" {
-  zone_id = "${aws_route53_zone.lainon_life.zone_id}"
-  name    = "*.${aws_route53_zone.lainon_life.name}"
-  type    = "AAAA"
-  ttl     = "${local.default_ttl}"
-  records = ["${local.lainonlife_ipv6}"]
+output "lainon_life_name_servers" {
+  value = "${module.lainon_life.name_servers}"
 }
