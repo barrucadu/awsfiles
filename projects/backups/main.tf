@@ -11,12 +11,12 @@ resource "aws_s3_bucket" "backup" {
     enabled = true
 
     transition {
-      days          = 60
+      days          = 32
       storage_class = "STANDARD_IA"
     }
 
     transition {
-      days          = 120
+      days          = 64
       storage_class = "GLACIER"
     }
   }
