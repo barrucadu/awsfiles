@@ -51,6 +51,43 @@ resource "aws_route53_record" "innsmouth_barrucadu_co_uk" {
   records = ["li1374-161.members.linode.com"]
 }
 
+# temporary
+resource "aws_route53_record" "dunwich_barrucadu_com" {
+  zone_id = "${module.barrucadu_com.zone_id}"
+  name    = "dunwich.barrucadu.com"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["dunwich.barrucadu.co.uk"]
+}
+resource "aws_route53_record" "dunwich_barrucadu_uk" {
+  zone_id = "${module.barrucadu_uk.zone_id}"
+  name    = "dunwich.barrucadu.uk"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["dunwich.barrucadu.co.uk"]
+}
+resource "aws_route53_record" "star_dunwich_barrucadu_co_uk" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = "*.dunwich.barrucadu.co.uk"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["dunwich.barrucadu.co.uk"]
+}
+resource "aws_route53_record" "dunwich_uzbl_org" {
+  zone_id = "${module.uzbl_org.zone_id}"
+  name    = "dunwich.uzbl.org"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["dunwich.barrucadu.co.uk"]
+}
+resource "aws_route53_record" "star_dunwich_uzbl_org" {
+  zone_id = "${module.uzbl_org.zone_id}"
+  name    = "*.dunwich.uzbl.org"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["dunwich.uzbl.org"]
+}
+
 output "barrucadu_co_uk_name_servers" {
   value = "${module.barrucadu_co_uk.name_servers}"
 }
