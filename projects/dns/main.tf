@@ -52,6 +52,13 @@ resource "aws_route53_record" "innsmouth_barrucadu_co_uk" {
 }
 
 # temporary
+resource "aws_route53_record" "www_barrucadu_co_uk" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = "www.barrucadu.co.uk"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["dunwich.barrucadu.co.uk"]
+}
 resource "aws_route53_record" "memo_barrucadu_co_uk" {
   zone_id = "${module.barrucadu_co_uk.zone_id}"
   name    = "memo.barrucadu.co.uk"
