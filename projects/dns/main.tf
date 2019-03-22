@@ -2,6 +2,7 @@ locals {
   "innsmouth_ipv4"  = "139.162.211.161"
   "innsmouth_ipv6"  = "2a01:7e00::f03c:91ff:fee4:c7d5"
   "dunwich_ipv4"    = "116.203.134.200"
+  "dunwich_ipv6"    = "2a01:4f8:c2c:2b22::"
 }
 
 /* ************************************************************************* */
@@ -9,23 +10,23 @@ locals {
 module "barrucadu_co_uk" {
   source = "../../modules/dns"
   domain = "barrucadu.co.uk"
-  a      = ["${local.innsmouth_ipv4}"]
-  aaaa   = ["${local.innsmouth_ipv6}"]
+  a      = ["${local.dunwich_ipv4}"]
+  aaaa   = ["${local.dunwich_ipv6}"]
   mx     = ["0 aspmx.l.google.com."]
 }
 
 module "barrucadu_uk" {
   source = "../../modules/dns"
   domain = "barrucadu.uk"
-  a      = ["${local.innsmouth_ipv4}"]
-  aaaa   = ["${local.innsmouth_ipv6}"]
+  a      = ["${local.dunwich_ipv4}"]
+  aaaa   = ["${local.dunwich_ipv6}"]
 }
 
 module "barrucadu_com" {
   source = "../../modules/dns"
   domain = "barrucadu.com"
-  a      = ["${local.innsmouth_ipv4}"]
-  aaaa   = ["${local.innsmouth_ipv6}"]
+  a      = ["${local.dunwich_ipv4}"]
+  aaaa   = ["${local.dunwich_ipv6}"]
 }
 
 module "uzbl_org" {
@@ -42,6 +43,20 @@ resource "aws_route53_record" "A_dunwich_barrucadu_co_uk" {
   ttl     = 300
   records = ["${local.dunwich_ipv4}"]
 }
+resource "aws_route53_record" "AAAA_dunwich_barrucadu_co_uk" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = "dunwich.barrucadu.co.uk"
+  type    = "AAAA"
+  ttl     = 300
+  records = ["${local.dunwich_ipv6}"]
+}
+resource "aws_route53_record" "star_dunwich_barrucadu_co_uk" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = "*.dunwich.barrucadu.co.uk"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["dunwich.barrucadu.co.uk"]
+}
 
 resource "aws_route53_record" "innsmouth_barrucadu_co_uk" {
   zone_id = "${module.barrucadu_co_uk.zone_id}"
@@ -52,48 +67,6 @@ resource "aws_route53_record" "innsmouth_barrucadu_co_uk" {
 }
 
 # temporary
-resource "aws_route53_record" "www_barrucadu_co_uk" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
-  name    = "www.barrucadu.co.uk"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["dunwich.barrucadu.co.uk"]
-}
-resource "aws_route53_record" "memo_barrucadu_co_uk" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
-  name    = "memo.barrucadu.co.uk"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["dunwich.barrucadu.co.uk"]
-}
-resource "aws_route53_record" "misc_barrucadu_co_uk" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
-  name    = "misc.barrucadu.co.uk"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["dunwich.barrucadu.co.uk"]
-}
-resource "aws_route53_record" "dunwich_barrucadu_com" {
-  zone_id = "${module.barrucadu_com.zone_id}"
-  name    = "dunwich.barrucadu.com"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["dunwich.barrucadu.co.uk"]
-}
-resource "aws_route53_record" "dunwich_barrucadu_uk" {
-  zone_id = "${module.barrucadu_uk.zone_id}"
-  name    = "dunwich.barrucadu.uk"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["dunwich.barrucadu.co.uk"]
-}
-resource "aws_route53_record" "star_dunwich_barrucadu_co_uk" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
-  name    = "*.dunwich.barrucadu.co.uk"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["dunwich.barrucadu.co.uk"]
-}
 resource "aws_route53_record" "dunwich_uzbl_org" {
   zone_id = "${module.uzbl_org.zone_id}"
   name    = "dunwich.uzbl.org"
