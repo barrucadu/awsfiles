@@ -32,8 +32,8 @@ module "barrucadu_com" {
 module "uzbl_org" {
   source = "../../modules/dns"
   domain = "uzbl.org"
-  a      = ["${local.innsmouth_ipv4}"]
-  aaaa   = ["${local.innsmouth_ipv6}"]
+  a      = ["${local.dunwich_ipv4}"]
+  aaaa   = ["${local.dunwich_ipv6}"]
 }
 
 resource "aws_route53_record" "A_dunwich_barrucadu_co_uk" {
@@ -64,22 +64,6 @@ resource "aws_route53_record" "innsmouth_barrucadu_co_uk" {
   type    = "CNAME"
   ttl     = 300
   records = ["li1374-161.members.linode.com"]
-}
-
-# temporary
-resource "aws_route53_record" "dunwich_uzbl_org" {
-  zone_id = "${module.uzbl_org.zone_id}"
-  name    = "dunwich.uzbl.org"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["dunwich.barrucadu.co.uk"]
-}
-resource "aws_route53_record" "star_dunwich_uzbl_org" {
-  zone_id = "${module.uzbl_org.zone_id}"
-  name    = "*.dunwich.uzbl.org"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["dunwich.uzbl.org"]
 }
 
 output "barrucadu_co_uk_name_servers" {
