@@ -1,8 +1,6 @@
 locals {
-  "innsmouth_ipv4"  = "139.162.211.161"
-  "innsmouth_ipv6"  = "2a01:7e00::f03c:91ff:fee4:c7d5"
-  "dunwich_ipv4"    = "116.203.134.200"
-  "dunwich_ipv6"    = "2a01:4f8:c2c:2b22::"
+  "dunwich_ipv4" = "116.203.134.200"
+  "dunwich_ipv6" = "2a01:4f8:c2c:2b22::"
 }
 
 /* ************************************************************************* */
@@ -56,14 +54,6 @@ resource "aws_route53_record" "star_dunwich_barrucadu_co_uk" {
   type    = "CNAME"
   ttl     = 300
   records = ["dunwich.barrucadu.co.uk"]
-}
-
-resource "aws_route53_record" "innsmouth_barrucadu_co_uk" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
-  name    = "innsmouth.barrucadu.co.uk"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["li1374-161.members.linode.com"]
 }
 
 output "barrucadu_co_uk_name_servers" {
