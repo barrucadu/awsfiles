@@ -13,6 +13,15 @@ module "barrucadu_co_uk" {
   mx     = ["0 aspmx.l.google.com."]
 }
 
+module "dunwich_barrucadu_co_uk" {
+  source    = "../../modules/dns_subdomain"
+  zone_id   = "${module.barrucadu_co_uk.zone_id}"
+  domain    = "${module.barrucadu_co_uk.domain}"
+  subdomain = "dunwich"
+  a         = ["${local.dunwich_ipv4}"]
+  aaaa      = ["${local.dunwich_ipv6}"]
+}
+
 module "barrucadu_uk" {
   source = "../../modules/dns"
   domain = "barrucadu.uk"
@@ -32,28 +41,6 @@ module "uzbl_org" {
   domain = "uzbl.org"
   a      = ["${local.dunwich_ipv4}"]
   aaaa   = ["${local.dunwich_ipv6}"]
-}
-
-resource "aws_route53_record" "A_dunwich_barrucadu_co_uk" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
-  name    = "dunwich.barrucadu.co.uk"
-  type    = "A"
-  ttl     = 300
-  records = ["${local.dunwich_ipv4}"]
-}
-resource "aws_route53_record" "AAAA_dunwich_barrucadu_co_uk" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
-  name    = "dunwich.barrucadu.co.uk"
-  type    = "AAAA"
-  ttl     = 300
-  records = ["${local.dunwich_ipv6}"]
-}
-resource "aws_route53_record" "star_dunwich_barrucadu_co_uk" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
-  name    = "*.dunwich.barrucadu.co.uk"
-  type    = "CNAME"
-  ttl     = 300
-  records = ["dunwich.barrucadu.co.uk"]
 }
 
 output "barrucadu_co_uk_name_servers" {

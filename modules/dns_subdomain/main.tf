@@ -1,6 +1,16 @@
+variable "zone_id" {
+  type        = "string"
+  description = "The Route53 Zone ID of the parent domain"
+}
+
 variable "domain" {
   type        = "string"
   description = "The domain name"
+}
+
+variable "subdomain" {
+  type        = "string"
+  description = "The subdomain name"
 }
 
 variable "ttl" {
@@ -21,28 +31,17 @@ variable "aaaa" {
   default     = []
 }
 
-variable "mx" {
-  type        = "list"
-  description = "List of MX records to use for {domain}"
-  default     = []
-}
-
 /* ************************************************************************* */
 
 locals {
   create_a    = "${length(var.a)    > 0 ? 1 : 0}"
   create_aaaa = "${length(var.aaaa) > 0 ? 1 : 0}"
-  create_mx   = "${length(var.mx)   > 0 ? 1 : 0}"
-}
-
-resource "aws_route53_zone" "domain" {
-  name = "${var.domain}."
 }
 
 resource "aws_route53_record" "A" {
   count   = "${local.create_a}"
-  zone_id = "${aws_route53_zone.domain.zone_id}"
-  name    = "${aws_route53_zone.domain.name}"
+  zone_id = "${var.zone_id}"
+  name    = "${var.subdomain}.${var.domain}"
   type    = "A"
 
   alias {
@@ -54,8 +53,8 @@ resource "aws_route53_record" "A" {
 
 resource "aws_route53_record" "A_star" {
   count   = "${local.create_a}"
-  zone_id = "${aws_route53_zone.domain.zone_id}"
-  name    = "*.${aws_route53_zone.domain.name}"
+  zone_id = "${var.zone_id}"
+  name    = "*.${var.subdomain}.${var.domain}"
   type    = "A"
   ttl     = "${var.ttl}"
   records = ["${var.a}"]
@@ -63,8 +62,8 @@ resource "aws_route53_record" "A_star" {
 
 resource "aws_route53_record" "AAAA" {
   count   = "${local.create_aaaa}"
-  zone_id = "${aws_route53_zone.domain.zone_id}"
-  name    = "${aws_route53_zone.domain.name}"
+  zone_id = "${var.zone_id}"
+  name    = "${var.subdomain}.${var.domain}"
   type    = "AAAA"
 
   alias {
@@ -76,34 +75,9 @@ resource "aws_route53_record" "AAAA" {
 
 resource "aws_route53_record" "AAAA_star" {
   count   = "${local.create_aaaa}"
-  zone_id = "${aws_route53_zone.domain.zone_id}"
-  name    = "*.${aws_route53_zone.domain.name}"
+  zone_id = "${var.zone_id}"
+  name    = "*.${var.subdomain}.${var.domain}"
   type    = "AAAA"
   ttl     = "${var.ttl}"
   records = ["${var.aaaa}"]
-}
-
-resource "aws_route53_record" "MX" {
-  count   = "${local.create_mx}"
-  zone_id = "${aws_route53_zone.domain.zone_id}"
-  name    = "${aws_route53_zone.domain.name}"
-  type    = "MX"
-  ttl     = "${var.ttl}"
-  records = ["${var.mx}"]
-}
-
-/* ************************************************************************* */
-
-output "zone_id" {
-  value       = "${aws_route53_zone.domain.zone_id}"
-  description = "The ID of the DNS zone."
-}
-
-output "domain" {
-  value       = "${aws_route53_zone.domain.name}"
-  description = "The domain name."
-}
-
-output "name_servers" {
-  value = "${aws_route53_zone.domain.name_servers}"
 }
