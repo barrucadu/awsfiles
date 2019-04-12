@@ -1,6 +1,7 @@
 locals {
-  "dunwich_ipv4" = "116.203.134.200"
-  "dunwich_ipv6" = "2a01:4f8:c2c:2b22::"
+  "dunwich_ipv4"      = "116.203.134.200"
+  "dunwich_ipv6"      = "2a01:4f8:c2c:2b22::"
+  "nyarlathotep_ipv6" = "2a01:4b00:8573:d700::1d3"
 }
 
 /* ************************************************************************* */
@@ -20,6 +21,14 @@ module "dunwich_barrucadu_co_uk" {
   subdomain = "dunwich"
   a         = ["${local.dunwich_ipv4}"]
   aaaa      = ["${local.dunwich_ipv6}"]
+}
+
+module "nyarlathotep_barrucadu_co_uk" {
+  source    = "../../modules/dns_subdomain"
+  zone_id   = "${module.barrucadu_co_uk.zone_id}"
+  domain    = "${module.barrucadu_co_uk.domain}"
+  subdomain = "nyarlathotep"
+  aaaa      = ["${local.nyarlathotep_ipv6}"]
 }
 
 module "barrucadu_uk" {
