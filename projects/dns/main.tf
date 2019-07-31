@@ -11,7 +11,7 @@ module "barrucadu_co_uk" {
   domain = "barrucadu.co.uk"
   a      = ["${local.dunwich_ipv4}"]
   aaaa   = ["${local.dunwich_ipv6}"]
-  mx     = ["0 aspmx.l.google.com."]
+  mx     = ["10 mail.protonmail.ch", "20 mailsec.protonmail.ch"]
 }
 
 module "dunwich_barrucadu_co_uk" {
@@ -50,6 +50,37 @@ module "uzbl_org" {
   domain = "uzbl.org"
   a      = ["${local.dunwich_ipv4}"]
   aaaa   = ["${local.dunwich_ipv6}"]
+}
+
+resource "aws_route53_record" "barrucadu_co_uk-mail" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = ""
+  type    = "TXT"
+  ttl     = 300
+  records = [
+    "protonmail-verification=68e94ed315f5df9a3060beb99c6c8ca059e0c741",
+    "v=spf1 include:_spf.protonmail.ch mx ~all",
+  ]
+}
+
+resource "aws_route53_record" "barrucadu_co_uk-mail-dkim" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = "protonmail._domainkey"
+  type    = "TXT"
+  ttl     = 300
+  records = [
+    "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDT7ZHsQ5JugP93QTFy7aINyXIQ16edbhP26ug+3+7Wg55Q4+IRuuBfqxqRtXr8DUJM42RTauL/T+aPJ16esAI+Y7kXC77wmEsDVXWGvhwEQMnWSpJhog8OUaKQqhGP4tlEaszw/kjDbfABTfx8ZRr0RGzGv9vxY8D/nWvvhEy15QIDAQAB"
+  ]
+}
+
+resource "aws_route53_record" "barrucadu_co_uk-mail-dmarc" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = "_dmarc"
+  type    = "TXT"
+  ttl     = 300
+  records = [
+    "v=DMARC1; p=none; rua=mailto:barrucadu.fallback@gmail.com"
+  ]
 }
 
 output "barrucadu_co_uk_name_servers" {
