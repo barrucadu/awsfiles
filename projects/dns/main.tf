@@ -83,6 +83,19 @@ resource "aws_route53_record" "barrucadu_co_uk-mail-dmarc" {
   ]
 }
 
+resource "aws_route53_record" "barrucadu_co_uk-govuk-k8s" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = "govuk-k8s.barrucadu.co.uk"
+  type    = "NS"
+  ttl     = 300
+  records = [
+    "ns-1118.awsdns-11.org",
+    "ns-130.awsdns-16.com",
+    "ns-1851.awsdns-39.co.uk",
+    "ns-648.awsdns-17.net"
+  ]
+}
+
 output "barrucadu_co_uk_name_servers" {
   value = "${module.barrucadu_co_uk.name_servers}"
 }
