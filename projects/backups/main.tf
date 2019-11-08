@@ -31,7 +31,7 @@ variable "group_backup_user_names" {
 module "group_backup" {
   source           = "../../modules/group_user"
   group_name       = "backup"
-  group_user_names = ["${var.group_backup_user_names}"]
+  group_user_names = "${var.group_backup_user_names}"
 
   group_policy_arns_count = 1
   group_policy_arns       = [

@@ -34,7 +34,7 @@ resource "aws_iam_group" "user_group" {
 resource "aws_iam_group_membership" "group_membership" {
   name  = "${var.group_name}-membership"
   count = "${local.create_group}"
-  users = ["${var.group_user_names}"]
+  users = "${var.group_user_names}"
   group = "${var.group_name}"
 }
 

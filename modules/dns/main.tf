@@ -46,8 +46,8 @@ resource "aws_route53_record" "A" {
   type    = "A"
 
   alias {
-    zone_id = "${aws_route53_record.A_star.zone_id}"
-    name    = "${aws_route53_record.A_star.name}"
+    zone_id = "${aws_route53_record.A_star[0].zone_id}"
+    name    = "${aws_route53_record.A_star[0].name}"
     evaluate_target_health = true
   }
 }
@@ -58,7 +58,7 @@ resource "aws_route53_record" "A_star" {
   name    = "*.${aws_route53_zone.domain.name}"
   type    = "A"
   ttl     = "${var.ttl}"
-  records = ["${var.a}"]
+  records = "${var.a}"
 }
 
 resource "aws_route53_record" "AAAA" {
@@ -68,8 +68,8 @@ resource "aws_route53_record" "AAAA" {
   type    = "AAAA"
 
   alias {
-    zone_id = "${aws_route53_record.AAAA_star.zone_id}"
-    name    = "${aws_route53_record.AAAA_star.name}"
+    zone_id = "${aws_route53_record.AAAA_star[0].zone_id}"
+    name    = "${aws_route53_record.AAAA_star[0].name}"
     evaluate_target_health = true
   }
 }
@@ -80,7 +80,7 @@ resource "aws_route53_record" "AAAA_star" {
   name    = "*.${aws_route53_zone.domain.name}"
   type    = "AAAA"
   ttl     = "${var.ttl}"
-  records = ["${var.aaaa}"]
+  records = "${var.aaaa}"
 }
 
 resource "aws_route53_record" "MX" {
@@ -89,7 +89,7 @@ resource "aws_route53_record" "MX" {
   name    = "${aws_route53_zone.domain.name}"
   type    = "MX"
   ttl     = "${var.ttl}"
-  records = ["${var.mx}"]
+  records = "${var.mx}"
 }
 
 /* ************************************************************************* */

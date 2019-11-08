@@ -33,7 +33,7 @@ variable "group_monitoring_user_names" {
 module "group_monitoring" {
   source                  = "../../modules/group_user"
   group_name              = "monitoring"
-  group_user_names        = ["${var.group_monitoring_user_names}"]
+  group_user_names        = "${var.group_monitoring_user_names}"
   group_policy_arns       = ["${aws_iam_policy.host-notifications.arn}"]
   group_policy_arns_count = 1
 }
