@@ -1,6 +1,9 @@
 locals {
   dunwich_ipv4 = "116.203.134.200"
   dunwich_ipv6 = "2a01:4f8:c2c:2b22::"
+
+  dreamlands_ipv4 = "94.130.74.147"
+  dreamlands_ipv6 = "2a01:4f8:c0c:77b3::"
 }
 
 /* ************************************************************************* */
@@ -22,6 +25,15 @@ module "dunwich_barrucadu_co_uk" {
   aaaa      = ["${local.dunwich_ipv6}"]
 }
 
+module "dreamlands_barrucadu_co_uk" {
+  source    = "../../modules/dns_subdomain"
+  zone_id   = "${module.barrucadu_co_uk.zone_id}"
+  domain    = "${module.barrucadu_co_uk.domain}"
+  subdomain = "dreamlands"
+  a         = ["${local.dreamlands_ipv4}"]
+  aaaa      = ["${local.dreamlands_ipv6}"]
+}
+
 module "barrucadu_uk" {
   source = "../../modules/dns"
   domain = "barrucadu.uk"
@@ -34,6 +46,13 @@ module "barrucadu_com" {
   domain = "barrucadu.com"
   a      = ["${local.dunwich_ipv4}"]
   aaaa   = ["${local.dunwich_ipv6}"]
+}
+
+module "barrucadu_dev" {
+  source = "../../modules/dns"
+  domain = "barrucadu.dev"
+  a      = ["${local.dreamlands_ipv4}"]
+  aaaa   = ["${local.dreamlands_ipv6}"]
 }
 
 module "uzbl_org" {
@@ -84,6 +103,10 @@ output "barrucadu_uk_name_servers" {
 
 output "barrucadu_com_name_servers" {
   value = "${module.barrucadu_com.name_servers}"
+}
+
+output "barrucadu_dev_name_servers" {
+  value = "${module.barrucadu_dev.name_servers}"
 }
 
 output "uzbl_org_name_servers" {
