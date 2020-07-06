@@ -73,13 +73,33 @@ resource "aws_route53_record" "barrucadu_co_uk-mail" {
   ]
 }
 
-resource "aws_route53_record" "barrucadu_co_uk-mail-dkim" {
+resource "aws_route53_record" "barrucadu_co_uk-mail-dkim_1" {
   zone_id = "${module.barrucadu_co_uk.zone_id}"
   name    = "protonmail._domainkey"
-  type    = "TXT"
+  type    = "CNAME"
   ttl     = 300
   records = [
-    "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDT7ZHsQ5JugP93QTFy7aINyXIQ16edbhP26ug+3+7Wg55Q4+IRuuBfqxqRtXr8DUJM42RTauL/T+aPJ16esAI+Y7kXC77wmEsDVXWGvhwEQMnWSpJhog8OUaKQqhGP4tlEaszw/kjDbfABTfx8ZRr0RGzGv9vxY8D/nWvvhEy15QIDAQAB"
+    "protonmail.domainkey.dpk2ikzsdalpp7gz5u7nsmcwt5wtskf627vh7o2tr5qictip25yoq.domains.proton.ch."
+  ]
+}
+
+resource "aws_route53_record" "barrucadu_co_uk-mail-dkim_2" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = "protonmail2._domainkey"
+  type    = "CNAME"
+  ttl     = 300
+  records = [
+    "protonmail2.domainkey.dpk2ikzsdalpp7gz5u7nsmcwt5wtskf627vh7o2tr5qictip25yoq.domains.proton.ch."
+  ]
+}
+
+resource "aws_route53_record" "barrucadu_co_uk-mail-dkim_3" {
+  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  name    = "protonmail3._domainkey"
+  type    = "CNAME"
+  ttl     = 300
+  records = [
+    "protonmail3.domainkey.dpk2ikzsdalpp7gz5u7nsmcwt5wtskf627vh7o2tr5qictip25yoq.domains.proton.ch."
   ]
 }
 
