@@ -11,59 +11,59 @@ locals {
 module "barrucadu_co_uk" {
   source = "../../modules/dns"
   domain = "barrucadu.co.uk"
-  a      = ["${local.dunwich_ipv4}"]
-  aaaa   = ["${local.dunwich_ipv6}"]
+  a      = [local.dunwich_ipv4]
+  aaaa   = [local.dunwich_ipv6]
   mx     = ["10 mail.protonmail.ch", "20 mailsec.protonmail.ch"]
 }
 
 module "dunwich_barrucadu_co_uk" {
   source    = "../../modules/dns_subdomain"
-  zone_id   = "${module.barrucadu_co_uk.zone_id}"
-  domain    = "${module.barrucadu_co_uk.domain}"
+  zone_id   = module.barrucadu_co_uk.zone_id
+  domain    = module.barrucadu_co_uk.domain
   subdomain = "dunwich"
-  a         = ["${local.dunwich_ipv4}"]
-  aaaa      = ["${local.dunwich_ipv6}"]
+  a         = [local.dunwich_ipv4]
+  aaaa      = [local.dunwich_ipv6]
 }
 
 module "dreamlands_barrucadu_co_uk" {
   source    = "../../modules/dns_subdomain"
-  zone_id   = "${module.barrucadu_co_uk.zone_id}"
-  domain    = "${module.barrucadu_co_uk.domain}"
+  zone_id   = module.barrucadu_co_uk.zone_id
+  domain    = module.barrucadu_co_uk.domain
   subdomain = "dreamlands"
-  a         = ["${local.dreamlands_ipv4}"]
-  aaaa      = ["${local.dreamlands_ipv6}"]
+  a         = [local.dreamlands_ipv4]
+  aaaa      = [local.dreamlands_ipv6]
 }
 
 module "barrucadu_uk" {
   source = "../../modules/dns"
   domain = "barrucadu.uk"
-  a      = ["${local.dunwich_ipv4}"]
-  aaaa   = ["${local.dunwich_ipv6}"]
+  a      = [local.dunwich_ipv4]
+  aaaa   = [local.dunwich_ipv6]
 }
 
 module "barrucadu_com" {
   source = "../../modules/dns"
   domain = "barrucadu.com"
-  a      = ["${local.dunwich_ipv4}"]
-  aaaa   = ["${local.dunwich_ipv6}"]
+  a      = [local.dunwich_ipv4]
+  aaaa   = [local.dunwich_ipv6]
 }
 
 module "barrucadu_dev" {
   source = "../../modules/dns"
   domain = "barrucadu.dev"
-  a      = ["${local.dreamlands_ipv4}"]
-  aaaa   = ["${local.dreamlands_ipv6}"]
+  a      = [local.dreamlands_ipv4]
+  aaaa   = [local.dreamlands_ipv6]
 }
 
 module "uzbl_org" {
   source = "../../modules/dns"
   domain = "uzbl.org"
-  a      = ["${local.dunwich_ipv4}"]
-  aaaa   = ["${local.dunwich_ipv6}"]
+  a      = [local.dunwich_ipv4]
+  aaaa   = [local.dunwich_ipv6]
 }
 
 resource "aws_route53_record" "barrucadu_co_uk-mail" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  zone_id = module.barrucadu_co_uk.zone_id
   name    = ""
   type    = "TXT"
   ttl     = 300
@@ -74,7 +74,7 @@ resource "aws_route53_record" "barrucadu_co_uk-mail" {
 }
 
 resource "aws_route53_record" "barrucadu_co_uk-mail-dkim_1" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  zone_id = module.barrucadu_co_uk.zone_id
   name    = "protonmail._domainkey"
   type    = "CNAME"
   ttl     = 300
@@ -84,7 +84,7 @@ resource "aws_route53_record" "barrucadu_co_uk-mail-dkim_1" {
 }
 
 resource "aws_route53_record" "barrucadu_co_uk-mail-dkim_2" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  zone_id = module.barrucadu_co_uk.zone_id
   name    = "protonmail2._domainkey"
   type    = "CNAME"
   ttl     = 300
@@ -94,7 +94,7 @@ resource "aws_route53_record" "barrucadu_co_uk-mail-dkim_2" {
 }
 
 resource "aws_route53_record" "barrucadu_co_uk-mail-dkim_3" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  zone_id = module.barrucadu_co_uk.zone_id
   name    = "protonmail3._domainkey"
   type    = "CNAME"
   ttl     = 300
@@ -104,7 +104,7 @@ resource "aws_route53_record" "barrucadu_co_uk-mail-dkim_3" {
 }
 
 resource "aws_route53_record" "barrucadu_co_uk-mail-dmarc" {
-  zone_id = "${module.barrucadu_co_uk.zone_id}"
+  zone_id = module.barrucadu_co_uk.zone_id
   name    = "_dmarc"
   type    = "TXT"
   ttl     = 300
@@ -114,23 +114,23 @@ resource "aws_route53_record" "barrucadu_co_uk-mail-dmarc" {
 }
 
 output "barrucadu_co_uk_name_servers" {
-  value = "${module.barrucadu_co_uk.name_servers}"
+  value = module.barrucadu_co_uk.name_servers
 }
 
 output "barrucadu_uk_name_servers" {
-  value = "${module.barrucadu_uk.name_servers}"
+  value = module.barrucadu_uk.name_servers
 }
 
 output "barrucadu_com_name_servers" {
-  value = "${module.barrucadu_com.name_servers}"
+  value = module.barrucadu_com.name_servers
 }
 
 output "barrucadu_dev_name_servers" {
-  value = "${module.barrucadu_dev.name_servers}"
+  value = module.barrucadu_dev.name_servers
 }
 
 output "uzbl_org_name_servers" {
-  value = "${module.uzbl_org.name_servers}"
+  value = module.uzbl_org.name_servers
 }
 
 /* ************************************************************************* */
@@ -142,7 +142,7 @@ module "archhurd_org" {
 }
 
 output "archhurd_org_name_servers" {
-  value = "${module.archhurd_org.name_servers}"
+  value = module.archhurd_org.name_servers
 }
 
 /* ************************************************************************* */
@@ -155,5 +155,5 @@ module "lainon_life" {
 }
 
 output "lainon_life_name_servers" {
-  value = "${module.lainon_life.name_servers}"
+  value = module.lainon_life.name_servers
 }
