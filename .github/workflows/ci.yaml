@@ -13,6 +13,11 @@ jobs:
           set -ex
           python -m pip install --upgrade pip
           pip install -r octodns/requirements-freeze.txt
+      - name: shellcheck
+        uses: ludeeus/action-shellcheck@master
+        env:
+          # SC1091 is "not following"
+          SHELLCHECK_OPTS: "--shell=bash -e SC1091"
       - name: octodns-validate
         run: |
           export AWS_ACCESS_KEY_ID=key
