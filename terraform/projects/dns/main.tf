@@ -69,13 +69,6 @@ module "dreamlands_barrucadu_co_uk" {
   aaaa      = [local.dreamlands_ipv6]
 }
 
-module "barrucadu_dev" {
-  source = "../../modules/dns"
-  domain = "barrucadu.dev"
-  a      = [local.dreamlands_ipv4]
-  aaaa   = [local.dreamlands_ipv6]
-}
-
 resource "aws_route53_record" "barrucadu_co_uk-mail" {
   zone_id = module.barrucadu_co_uk.zone_id
   name    = ""
@@ -129,10 +122,6 @@ resource "aws_route53_record" "barrucadu_co_uk-mail-dmarc" {
 
 output "barrucadu_co_uk_name_servers" {
   value = module.barrucadu_co_uk.name_servers
-}
-
-output "barrucadu_dev_name_servers" {
-  value = module.barrucadu_dev.name_servers
 }
 
 /* ************************************************************************* */
