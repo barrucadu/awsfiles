@@ -170,18 +170,6 @@ output "uzbl_org_name_servers" {
 
 /* ************************************************************************* */
 
-module "archhurd_org" {
-  source = "../../modules/dns"
-  domain = "archhurd.org"
-  a      = ["128.199.32.197"]
-}
-
-output "archhurd_org_name_servers" {
-  value = module.archhurd_org.name_servers
-}
-
-/* ************************************************************************* */
-
 module "lainon_life" {
   source = "../../modules/dns"
   domain = "lainon.life"
