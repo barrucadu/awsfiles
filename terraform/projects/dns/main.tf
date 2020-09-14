@@ -76,13 +76,6 @@ module "barrucadu_uk" {
   aaaa   = [local.dunwich_ipv6]
 }
 
-module "barrucadu_com" {
-  source = "../../modules/dns"
-  domain = "barrucadu.com"
-  a      = [local.dunwich_ipv4]
-  aaaa   = [local.dunwich_ipv6]
-}
-
 module "barrucadu_dev" {
   source = "../../modules/dns"
   domain = "barrucadu.dev"
@@ -147,10 +140,6 @@ output "barrucadu_co_uk_name_servers" {
 
 output "barrucadu_uk_name_servers" {
   value = module.barrucadu_uk.name_servers
-}
-
-output "barrucadu_com_name_servers" {
-  value = module.barrucadu_com.name_servers
 }
 
 output "barrucadu_dev_name_servers" {
