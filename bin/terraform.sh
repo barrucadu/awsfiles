@@ -1,6 +1,8 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -i bash -p crudini terraform
 
+set -e
+
 PROJECT="$1"
 PROJECT_DIR="terraform/projects/$PROJECT"
 shift
@@ -11,11 +13,13 @@ if [[ ! -f "$PROJECT_DIR/main.tf" ]]; then
 fi
 
 if [[ -z "$AWS_ACCESS_KEY" ]]; then
-  export AWS_ACCESS_KEY="$(crudini --get ~/.aws/credentials "terraform" aws_access_key_id)"
+  AWS_ACCESS_KEY="$(crudini --get ~/.aws/credentials "terraform" aws_access_key_id)"
+  export AWS_ACCESS_KEY
 fi
 
 if [[ -z "$AWS_SECRET_ACCESS_KEY" ]]; then
-  export AWS_SECRET_ACCESS_KEY="$(crudini --get ~/.aws/credentials "terraform" aws_secret_access_key)"
+  AWS_SECRET_ACCESS_KEY="$(crudini --get ~/.aws/credentials "terraform" aws_secret_access_key)"
+  export AWS_SECRET_ACCESS_KEY
 fi
 
 if [[ -z "$AWS_ACCESS_KEY" ]] || [[ -z "$AWS_SECRET_ACCESS_KEY" ]]; then
@@ -23,5 +27,5 @@ if [[ -z "$AWS_ACCESS_KEY" ]] || [[ -z "$AWS_SECRET_ACCESS_KEY" ]]; then
   exit 2
 fi
 
-pushd "$PROJECT_DIR" &>/dev/null
+cd "$PROJECT_DIR"
 terraform "$@"
