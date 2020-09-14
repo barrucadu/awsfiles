@@ -123,16 +123,3 @@ resource "aws_route53_record" "barrucadu_co_uk-mail-dmarc" {
 output "barrucadu_co_uk_name_servers" {
   value = module.barrucadu_co_uk.name_servers
 }
-
-/* ************************************************************************* */
-
-module "lainon_life" {
-  source = "../../modules/dns"
-  domain = "lainon.life"
-  a      = ["91.121.0.148"]
-  aaaa   = ["2001:41d0:0001:5394::1"]
-}
-
-output "lainon_life_name_servers" {
-  value = module.lainon_life.name_servers
-}
