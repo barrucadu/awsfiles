@@ -69,13 +69,6 @@ module "dreamlands_barrucadu_co_uk" {
   aaaa      = [local.dreamlands_ipv6]
 }
 
-module "barrucadu_uk" {
-  source = "../../modules/dns"
-  domain = "barrucadu.uk"
-  a      = [local.dunwich_ipv4]
-  aaaa   = [local.dunwich_ipv6]
-}
-
 module "barrucadu_dev" {
   source = "../../modules/dns"
   domain = "barrucadu.dev"
@@ -136,10 +129,6 @@ resource "aws_route53_record" "barrucadu_co_uk-mail-dmarc" {
 
 output "barrucadu_co_uk_name_servers" {
   value = module.barrucadu_co_uk.name_servers
-}
-
-output "barrucadu_uk_name_servers" {
-  value = module.barrucadu_uk.name_servers
 }
 
 output "barrucadu_dev_name_servers" {
