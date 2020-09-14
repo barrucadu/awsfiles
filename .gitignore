@@ -1,2 +1,3 @@
-projects/*/.terraform
-projects/*/terraform.tfvars
+.terraform
+terraform.tfvars
+venv
