@@ -2,7 +2,7 @@
 #! nix-shell -i bash -p crudini terraform
 
 PROJECT="$1"
-PROJECT_DIR="projects/$PROJECT"
+PROJECT_DIR="terraform/projects/$PROJECT"
 shift
 
 if [[ ! -f "$PROJECT_DIR/main.tf" ]]; then
