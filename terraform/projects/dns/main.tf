@@ -90,13 +90,6 @@ module "barrucadu_dev" {
   aaaa   = [local.dreamlands_ipv6]
 }
 
-module "uzbl_org" {
-  source = "../../modules/dns"
-  domain = "uzbl.org"
-  a      = [local.dunwich_ipv4]
-  aaaa   = [local.dunwich_ipv6]
-}
-
 resource "aws_route53_record" "barrucadu_co_uk-mail" {
   zone_id = module.barrucadu_co_uk.zone_id
   name    = ""
@@ -162,10 +155,6 @@ output "barrucadu_com_name_servers" {
 
 output "barrucadu_dev_name_servers" {
   value = module.barrucadu_dev.name_servers
-}
-
-output "uzbl_org_name_servers" {
-  value = module.uzbl_org.name_servers
 }
 
 /* ************************************************************************* */
