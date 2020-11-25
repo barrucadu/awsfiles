@@ -28,7 +28,7 @@
 "_dmarc":
   type: "TXT"
   values:
-  - "v=DMARC1\\; p=none\\; rua=mailto:barrucadu.fallback@gmail.com"
+  - "v=DMARC1\\; p=none\\; rua=mailto:mike+dmarc@barrucadu.co.uk"
 
 "dreamlands":
   type: "CNAME"
