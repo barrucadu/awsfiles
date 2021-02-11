@@ -26,6 +26,8 @@ zones:
     <<: *standard-dns-config
   barrucadu.dev.:
     <<: *standard-dns-config
+  lookwhattheshoggothdraggedin.com.:
+    <<: *standard-dns-config
   # open source projects
   archhurd.org.:
     <<: *standard-dns-config
