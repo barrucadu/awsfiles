@@ -8,20 +8,17 @@ resource "aws_iam_user_policy_attachment" "manage_dns" {
 }
 
 resource "aws_iam_policy" "tool_octodns" {
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "route53:*"
-            ],
-            "Effect": "Allow",
-            "Resource": [
-                "*"
-            ]
-        }
-    ]
+  policy = data.aws_iam_policy_document.tool_octodns.json
 }
-EOF
+
+data "aws_iam_policy_document" "tool_octodns" {
+  statement {
+    actions = [
+      "route53:*",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
 }

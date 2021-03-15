@@ -29,18 +29,17 @@ resource "aws_iam_user_policy_attachment" "monitoring_notifications" {
 }
 
 resource "aws_iam_policy" "host-notifications" {
-  policy = <<EOF
-{
-  "Version":"2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Resource": "${aws_sns_topic.host-notifications.arn}",
-      "Action": [
-        "sns:Publish"
-      ]
-    }
-  ]
+  policy = data.aws_iam_policy_document.host-notifications.json
 }
-EOF
+
+data "aws_iam_policy_document" "host-notifications" {
+  statement {
+    actions = [
+      "sns:Publish",
+    ]
+
+    resources = [
+      aws_sns_topic.host-notifications.arn,
+    ]
+  }
 }
