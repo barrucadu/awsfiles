@@ -1,15 +1,13 @@
 variable "phone" {}
-# variable "email" {}
+variable "email" {}
 
 /* ************************************************************************* */
 
 resource "aws_sns_topic" "host-notifications" {
-  provider = "aws"
   name     = "host-notifications"
 }
 
 resource "aws_sns_topic_subscription" "host-notifications-sms" {
-  provider  = "aws"
   topic_arn = aws_sns_topic.host-notifications.arn
   protocol  = "sms"
   endpoint  = var.phone

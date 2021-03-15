@@ -32,8 +32,8 @@ data "aws_iam_policy_document" "tool_concourse" {
     resources = [
       # "arn:aws:ssm:::parameter/..." doesn't seem to work in this
       # policy, but specifying the account ID explicitly does.
-      "arn:aws:ssm:eu-west-2:${var.aws_account_id}:parameter/concourse",
-      "arn:aws:ssm:eu-west-2:${var.aws_account_id}:parameter/concourse/*",
+      "arn:aws:ssm:eu-west-1:${var.aws_account_id}:parameter/concourse",
+      "arn:aws:ssm:eu-west-1:${var.aws_account_id}:parameter/concourse/*",
     ]
   }
 

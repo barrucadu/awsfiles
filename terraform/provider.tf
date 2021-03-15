@@ -1,6 +1,8 @@
 terraform {
+  required_version = ">= 0.12"
+
   backend "s3" {
-    key     = "infra/backups.tfstate"
+    key     = "infra/aws.tfstate"
     bucket  = "barrucadu-awsfiles-terraform-remote-state"
     region  = "eu-west-1"
     encrypt = true
