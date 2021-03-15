@@ -1,8 +1,3 @@
-variable "phone" {}
-variable "email" {}
-
-/* ************************************************************************* */
-
 resource "aws_sns_topic" "host-notifications" {
   name     = "host-notifications"
 }

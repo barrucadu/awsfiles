@@ -1,7 +1,3 @@
-variable "aws_account_id" {
-  type = string
-}
-
 resource "aws_iam_user" "user_concourse" {
   name = "concourse"
 }
@@ -63,8 +59,4 @@ data "aws_iam_policy_document" "tool_concourse" {
       "*"
     ]
   }
-}
-
-output "key_arn" {
-  value = aws_kms_key.concourse.arn
 }
