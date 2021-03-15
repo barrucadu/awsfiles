@@ -24,14 +24,14 @@ resource "aws_s3_bucket" "backup" {
 
 /* ************************************************************************* */
 
-variable "group_backup_user_names" {
-  type = list(string)
+resource "aws_iam_user" "user_backup" {
+  name = "backup-scripts"
 }
 
 module "group_backup" {
   source           = "../../modules/group_user"
   group_name       = "backup"
-  group_user_names = var.group_backup_user_names
+  group_user_names = [aws_iam_user.user_backup.name]
 
   group_policy_arns = [
     aws_iam_policy.tool_duplicity.arn,

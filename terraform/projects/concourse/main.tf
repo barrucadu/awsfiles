@@ -2,14 +2,14 @@ variable "aws_account_id" {
   type = string
 }
 
-variable "group_concourse_user_names" {
-  type = list(string)
+resource "aws_iam_user" "user_concourse" {
+  name = "concourse"
 }
 
 module "group_concourse" {
   source           = "../../modules/group_user"
   group_name       = "concourse"
-  group_user_names = var.group_concourse_user_names
+  group_user_names = [aws_iam_user.user_concourse.name]
 
   group_policy_arns = [
     aws_iam_policy.tool_concourse.arn,

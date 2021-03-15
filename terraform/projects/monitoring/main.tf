@@ -26,14 +26,14 @@ resource "aws_sns_topic_subscription" "host-notifications-sms" {
 
 /* ************************************************************************* */
 
-variable "group_monitoring_user_names" {
-  type = list(string)
+resource "aws_iam_user" "user_monitoring" {
+  name = "monitoring-scripts"
 }
 
 module "group_monitoring" {
   source                  = "../../modules/group_user"
   group_name              = "monitoring"
-  group_user_names        = var.group_monitoring_user_names
+  group_user_names        = [aws_iam_user.user_monitoring.name]
   group_policy_arns       = [aws_iam_policy.host-notifications.arn]
 }
 
