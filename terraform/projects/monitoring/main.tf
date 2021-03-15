@@ -30,11 +30,9 @@ resource "aws_iam_user" "user_monitoring" {
   name = "monitoring-scripts"
 }
 
-module "group_monitoring" {
-  source                  = "../../modules/group_user"
-  group_name              = "monitoring"
-  group_user_names        = [aws_iam_user.user_monitoring.name]
-  group_policy_arns       = [aws_iam_policy.host-notifications.arn]
+resource "aws_iam_user_policy_attachment" "monitoring_notifications" {
+  user       = aws_iam_user.user_monitoring.name
+  policy_arn = aws_iam_policy.host-notifications.arn
 }
 
 resource "aws_iam_policy" "host-notifications" {

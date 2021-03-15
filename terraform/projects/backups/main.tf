@@ -28,14 +28,9 @@ resource "aws_iam_user" "user_backup" {
   name = "backup-scripts"
 }
 
-module "group_backup" {
-  source           = "../../modules/group_user"
-  group_name       = "backup"
-  group_user_names = [aws_iam_user.user_backup.name]
-
-  group_policy_arns = [
-    aws_iam_policy.tool_duplicity.arn,
-  ]
+resource "aws_iam_user_policy_attachment" "create_backups" {
+  user       = aws_iam_user.user_backup.name
+  policy_arn = aws_iam_policy.tool_duplicity.arn
 }
 
 resource "aws_iam_policy" "tool_duplicity" {

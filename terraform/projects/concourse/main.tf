@@ -6,14 +6,9 @@ resource "aws_iam_user" "user_concourse" {
   name = "concourse"
 }
 
-module "group_concourse" {
-  source           = "../../modules/group_user"
-  group_name       = "concourse"
-  group_user_names = [aws_iam_user.user_concourse.name]
-
-  group_policy_arns = [
-    aws_iam_policy.tool_concourse.arn,
-  ]
+resource "aws_iam_user_policy_attachment" "manage_concourse_ssm" {
+  user       = aws_iam_user.user_concourse.name
+  policy_arn = aws_iam_policy.tool_concourse.arn
 }
 
 resource "aws_kms_key" "concourse" {
