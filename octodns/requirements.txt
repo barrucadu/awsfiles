@@ -1,2 +1,0 @@
-octodns
-boto3
