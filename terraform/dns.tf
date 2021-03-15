@@ -8,6 +8,7 @@ resource "aws_iam_user_policy_attachment" "manage_dns" {
 }
 
 resource "aws_iam_policy" "tool_octodns" {
+  name   = "tool_octodns"
   policy = data.aws_iam_policy_document.tool_octodns.json
 }
 

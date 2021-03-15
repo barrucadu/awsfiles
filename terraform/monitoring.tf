@@ -29,6 +29,7 @@ resource "aws_iam_user_policy_attachment" "monitoring_notifications" {
 }
 
 resource "aws_iam_policy" "host-notifications" {
+  name   = "host-notifications"
   policy = data.aws_iam_policy_document.host-notifications.json
 }
 

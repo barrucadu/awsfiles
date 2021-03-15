@@ -12,6 +12,7 @@ resource "aws_kms_key" "concourse" {
 }
 
 resource "aws_iam_policy" "tool_concourse" {
+  name   = "tool_concourse"
   policy = data.aws_iam_policy_document.tool_concourse.json
 }
 

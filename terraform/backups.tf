@@ -34,6 +34,7 @@ resource "aws_iam_user_policy_attachment" "create_backups" {
 }
 
 resource "aws_iam_policy" "tool_duplicity" {
+  name   = "tool_duplicity"
   policy = data.aws_iam_policy_document.tool_duplicity.json
 }
 
